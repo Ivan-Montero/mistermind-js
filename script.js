@@ -1,7 +1,7 @@
 //Generar el número para adivinar.
-let numeroAzar = Math.random()*9999;
-numeroAzar = Math.floor(numeroAzar) + 1;
-
+// let numeroAzar = Math.random()*9999;
+// numeroAzar = Math.floor(numeroAzar) + 1;
+let numeroAzar = 7775;
 // Convertir a string con 4 dígitos (rellenando con ceros a la izquierda si es necesario)
 let numeroAzarStr = numeroAzar.toString().padStart(4, '0');
 // Extraer cada dígito
@@ -9,6 +9,15 @@ let digitoAzar1 = numeroAzarStr[0];
 let digitoAzar2 = numeroAzarStr[1];
 let digitoAzar3 = numeroAzarStr[2];
 let digitoAzar4 = numeroAzarStr[3];
+
+const digitosAzar = [digitoAzar1, digitoAzar2, digitoAzar3, digitoAzar4];
+    // Contar ocurrencias de cada dígito en digitosAzar
+    const contadorAzar = {};
+    digitosAzar.forEach(digito => {
+        contadorAzar[digito] = (contadorAzar[digito] || 0) + 1;
+        console.log("contadorAzar[digito] = ", contadorAzar[digito])
+    });
+
 
 console.log(numeroAzar);
 console.log("digitos Azar : " , digitoAzar1, digitoAzar2, digitoAzar3, digitoAzar4 )
@@ -26,7 +35,7 @@ let numeroEntrada = Number(digitoEntrada1 + digitoEntrada2 + digitoEntrada3 + di
 //Elementos del tablero con los que interactuar
 let pantalla = document.getElementById("pantalla");
 let feedback = document.getElementById("feedback");
-const boton = document.querySelector('button');
+const boton = document.getElementById("probar");
 
 function comprueba(){
 
@@ -82,18 +91,30 @@ function comprueba(){
 
 function calcularFeedback(d1, d2, d3, d4) {
     const digitosEntrada = [d1, d2, d3, d4];
-    const digitosAzar = [digitoAzar1, digitoAzar2, digitoAzar3, digitoAzar4];
     let feedback = "";
     console.log("calculando feedback");
     
+    // Contar ocurrencias de cada dígito en digitosEntrada
+    const contadorEntrada = {};
+    digitosEntrada.forEach(digito => {
+        contadorEntrada[digito] = (contadorEntrada[digito] || 0) + 1;
+    });
+    
     for (let i = 0; i < 4; i++) {
+        const digitoActual = digitosEntrada[i];
+        const faltaDuplicado = contadorEntrada[digitoActual] < contadorAzar[digitoActual];
+        
         if (digitosEntrada[i] === digitosAzar[i]) {
-            feedback += "O"; // Posición y dígito correctos
+            // Posición y dígito correctos
+            feedback += faltaDuplicado ? "OR" : "O";
         } else if (digitosAzar.includes(digitosEntrada[i])) {
-            feedback += "A"; // Dígito correcto pero posición incorrecta
+            // Dígito correcto pero posición incorrecta
+            feedback += faltaDuplicado ? "AR" : "A";
         } else {
-            feedback += "X"; // Dígito incorrecto
+            // Dígito incorrecto
+            feedback += "X";
         }
+        
         if (i < 3) feedback += "-";
     }
     
@@ -115,7 +136,7 @@ nuevoIntento.innerHTML = `
     <input type="number" id="digito2${numIntentos}">
     <input type="number" id="digito3${numIntentos}">
     <input type="number" id="digito4${numIntentos}">
-    <p id="feedback${numIntentos}">X-X-X-X</p>
+    <p id="feedback${numIntentos}"></p>
     `;
 
     if (numIntentos > 9){
@@ -167,5 +188,31 @@ boton.addEventListener('click', function(e) {
     requestAnimationFrame(() => {
         this.blur();
     });
+});
+
+// Toggle para mostrar/ocultar instrucciones
+const btnInstrucciones = document.getElementById('toggleInstrucciones');
+const divInstrucciones = document.getElementById('instrucciones');
+const btnCerrar = document.getElementById("toggleCerrar");
+
+btnInstrucciones.addEventListener('click', function() {
+    // Alternar la clase 'oculto'
+    divInstrucciones.classList.toggle('oculto');
+    
+    this.classList.toggle('oculto');
+    // // Opcional: cambiar el texto del botón
+    // if (divInstrucciones.classList.contains('oculto')) {
+    //     this.textContent = 'Instrucciones';
+    // } else {
+    //     this.textContent = '❌ Cerrar';
+    // }
+});
+
+btnCerrar.addEventListener('click', function() {
+    // Alternar la clase 'oculto'
+    divInstrucciones.classList.toggle('oculto');
+    
+    btnInstrucciones.classList.toggle('oculto');
+
 });
 

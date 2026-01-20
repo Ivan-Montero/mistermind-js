@@ -23,15 +23,26 @@ html{
     color:  #1e1f2aad;
   }
   
+  /* Contenedor para tablero e instrucciones */
+.contenedor-juego {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Alinea en la parte superior */
+  gap: 20px; /* Espacio entre tablero e instrucciones */
+  margin: 40px auto;
+  max-width: 1200px;
+  flex-wrap: wrap; /* Permite que se apilen en pantallas pequeñas */
+}
+
   .tablero {
     position: relative;
-    background-image: linear-gradient( 135deg, #8a9db2 10%, #3a3f4b 100%);
+    background-image: linear-gradient(135deg, #8a9db2 10%, #3a3f4b 100%);
     width: 280px;
     height: 570px;
-    margin: 40px auto;
     padding: 2%;
     border-radius: 16px;
     box-shadow: 0 0 15px 5px #f5e8c7;
+    flex-shrink: 0; /* Evita que el tablero se encoja */
   }
 
   #essey {
@@ -77,7 +88,7 @@ html{
   }
 
 
-button {
+#probar {
   all: unset;
   position: absolute;
   bottom: 15px;
@@ -90,7 +101,7 @@ button {
       0.0375em 0.0375em 0.0675em 0 rgba(5, 5, 5, 0.1);
 }
 
-button::after {
+#probar::after {
   content: "";
   position: absolute;
   z-index: 0;
@@ -108,7 +119,7 @@ button::after {
   mix-blend-mode: multiply;
 }
 
-button .button-outer {
+#probar .button-outer {
     position: relative;
     z-index: 1;
     border-radius: inherit;
@@ -119,7 +130,7 @@ button .button-outer {
         0.15em 0.3em 0.1em -0.01em rgba(5, 5, 5, 0.25);
 }
 
-button:hover .button-outer {
+#probar:hover .button-outer {
     box-shadow: 0 0 0 0 rgba(5, 5, 5, 1), 0 0 0 0 rgba(5, 5, 5, 0.5),
         0 0 0 0 rgba(5, 5, 5, 0.25);
 }
@@ -155,7 +166,7 @@ button:hover .button-outer {
         -0.075em -0.25em 0.25em 0.1em inset rgba(5, 5, 5, 0.25);
 }
 
-button:hover .button-inner {
+#probar:hover .button-inner {
     clip-path: inset(clamp(1px, 0.0625em, 2px) clamp(1px, 0.0625em, 2px) clamp(1px, 0.0625em, 2px) clamp(1px, 0.0625em, 2px) round 999vw);
     box-shadow:
         /* 1 */
@@ -174,7 +185,7 @@ button:hover .button-inner {
         -0.075em -0.12em 0.2em 0.1em inset rgba(5, 5, 5, 0.25);
 }
 
-button .button-inner span {
+#probar .button-inner span {
     position: relative;
     z-index: 4;
     font-family: "Inter", sans-serif;
@@ -196,24 +207,24 @@ button .button-inner span {
     user-select: none;
 }
 
-button:hover .button-inner span {
+#probar:hover .button-inner span {
     transform: scale(0.975);
 }
 
-button:active .button-inner {
+#probar:active .button-inner {
     transform: scale(0.975);
 }
 
 /* Eliminar efectos hover cuando el botón está desactivado */
-button:disabled .button-outer,
-button:disabled:hover .button-outer {
+#probar:disabled .button-outer,
+#probar:disabled:hover .button-outer {
     box-shadow: 0 0.05em 0.05em -0.01em rgba(5, 5, 5, 1),
         0 0.01em 0.01em -0.01em rgba(5, 5, 5, 0.5),
         0.15em 0.3em 0.1em -0.01em rgba(5, 5, 5, 0.25);
 }
 
-button:disabled .button-inner,
-button:disabled:hover .button-inner {
+#probar:disabled .button-inner,
+#probar:disabled:hover .button-inner {
     clip-path: inset(0 0 0 0 round 999vw);
     box-shadow:
         0 0 0 0 inset rgba(5, 5, 5, 0.1),
@@ -225,36 +236,38 @@ button:disabled:hover .button-inner {
         -0.075em -0.25em 0.25em 0.1em inset rgba(5, 5, 5, 0.25);
 }
 
-button:disabled .button-inner span,
-button:disabled:hover .button-inner span {
+#probar:disabled .button-inner span,
+#probar:disabled:hover .button-inner span {
     transform: scale(1);
 }
 
-button:disabled:active .button-inner {
+#probar:disabled:active .button-inner {
     transform: scale(1);
 }
 
 /* Opcional: cambiar el cursor y opacidad para indicar que está desactivado */
-button:disabled {
+#probar:disabled {
     cursor: default;
     opacity: 0.6;
 }
 
-button:focus {
+/********************************************/
+
+#probar:focus {
   outline: none;
 }
 
-button:active {
+#probar:active {
   outline: none;
 }
 
 /* Eliminar el estado de focus en dispositivos táctiles */
 @media (hover: none) {
-  button:focus {
+  #probar:focus {
       outline: none;
   }
   
-  button:focus .button-inner {
+  #probar:focus .button-inner {
       clip-path: inset(0 0 0 0 round 999vw);
       box-shadow:
           0 0 0 0 inset rgba(5, 5, 5, 0.1),
@@ -268,7 +281,7 @@ button:active {
 }
 
 /* Forzar el estado normal después del touch */
-button:focus:not(:hover) .button-inner {
+#probar:focus:not(:hover) .button-inner {
   clip-path: inset(0 0 0 0 round 999vw);
   box-shadow:
       0 0 0 0 inset rgba(5, 5, 5, 0.1),
@@ -280,22 +293,152 @@ button:focus:not(:hover) .button-inner {
       -0.075em -0.25em 0.25em 0.1em inset rgba(5, 5, 5, 0.25);
 }
 
-button:focus:not(:hover) .button-inner span {
+#probar:focus:not(:hover) .button-inner span {
   transform: scale(1);
 }
 
 /* Específico para dispositivos táctiles */
 @media (hover: none) and (pointer: coarse) {
-  button:active .button-inner {
+  #probar:active .button-inner {
       transition: all 0.1s ease;
   }
   
-  button:focus .button-inner {
+  #probar:focus .button-inner {
       clip-path: inset(0 0 0 0 round 999vw) !important;
       transform: scale(1) !important;
   }
   
-  button:focus .button-inner span {
+  #probar:focus .button-inner span {
       transform: scale(1) !important;
+  }
+}
+/********************************************/
+
+/* Botón de instrucciones */
+.btn-instrucciones {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  height: 25px;
+  width: 108px;
+  display: block;
+  background-color: #8a9db2;
+  color: #f5e8c7;
+  border: 2px solid black;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 550;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.btn-instrucciones:hover {
+  background-color: #8a9db2;
+  transform: scale(1.05);
+}
+
+.btn-cerrar {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  height: 25px;
+  width: 108px;
+  display: block;
+  background-color: #8a9db2;
+  color: #f5e8c7;
+  border: 2px solid black;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 550;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.btn-cerrar:hover {
+  background-color: #8a9db2;
+  transform: scale(1.05);
+}
+
+/* Div de instrucciones */
+.instrucciones {  
+  position: relative;
+  max-width: 280px;
+  width: 100%;
+  height: fit-content; /* Ajusta la altura al contenido */
+  padding: 20px;
+  background-color: #f5e8c7;
+  border: 3px solid #8a9db2;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  align-self: flex-start; /* Se alinea al inicio verticalmente */
+  flex-shrink: 0; /* Evita que se encoja */
+}
+
+.instrucciones h3 {
+  margin-top: 25px;
+  color: #3a3f4b;
+  text-align: center;
+}
+
+.instrucciones ul {
+  list-style: none;
+  padding: 0;
+}
+
+.instrucciones li {
+  margin: 10px 0;
+  padding: 8px;
+  background-color: rgba(138, 157, 178, 0.2);
+  border-radius: 5px;
+  color: #1e1f2a;
+}
+
+/* Clase para ocultar */
+.oculto {
+  display: none;
+}
+
+/* Animación opcional para mostrar/ocultar */
+.instrucciones.visible {
+  animation: ease ;
+}
+
+/* Media query para tablets y móviles */
+@media (max-width: 768px) {
+  .contenedor-juego {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .instrucciones {
+    max-width: 280px;
+    margin: 0 auto; /* Centra horizontalmente */
+    align-self: center; /* Centra dentro del flex container */
+  }
+
+  .btn-instrucciones {
+    position: inherit;
+    margin-top: 0px;
+  }
+  
+  /* Ocultar el tablero cuando las instrucciones están visibles en móviles */
+  .tablero.oculto {
+    display: none;
+  }
+  
+  /* Hacer que las instrucciones ocupen todo el espacio disponible */
+  .instrucciones:not(.oculto) {
+    width: 90%;
+    max-width: 320px;
+  }
+}
+
+/* En pantallas grandes, ambos elementos siempre visibles */
+@media (min-width: 769px) {
+  .tablero.oculto {
+    display: block; /* Siempre visible en pantallas grandes */
   }
 }

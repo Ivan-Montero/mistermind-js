@@ -2,38 +2,56 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mistermind</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mistermind</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <h1>Curso Javascript</h1>
-    <h2>¡ MISTERMIND !</h2>
+  <h1>Curso Javascript</h1>
+  <h2>¡ MISTERMIND !</h2>
+  
+  <div class="contenedor-juego">
     <div class="tablero">
-        <p type="text" id="pantalla">SOLUCION</p>
-        <div class="intento0" id="essey">
+      <!-- Botón para mostrar/ocultar instrucciones -->
+      <button id="toggleInstrucciones" class="btn-instrucciones">
+        Instrucciones
+      </button>
+      <p type="text" id="pantalla">SOLUCION</p>
+      <div class="intento0" id="essey">
         <input type="number" id="digito10">
         <input type="number" id="digito20">
         <input type="number" id="digito30">
         <input type="number" id="digito40">
-        <p id="feedback0">X-X-X-X</p>
+        <p id="feedback0"></p>
+      </div>
+      <button id="probar">
+        <div class="button-outer">
+          <div class="button-inner">
+            <span>Probar</span>
+          </div>
         </div>
-        <button>
-            <div class="button-outer">
-              <div class="button-inner">
-                <span>Probar</span>
-              </div>
-            </div>
-          </button>
-        <div>
-        <!-- <input type="button" id="probar" value="Probar" onclick="comprueba()"> -->
+      </button>
     </div>
-</div>
+    
+    <!-- Div de instrucciones DENTRO del contenedor-juego -->
+    <div id="instrucciones" class="instrucciones oculto">
+      <button id="toggleCerrar" class="btn-cerrar">
+        ❌ Cerrar
+      </button>
+      <h3>Cómo jugar:</h3>
+      <ul>
+        <li><strong>O</strong>: Dígito correcto en posición correcta</li>
+        <li><strong>A</strong>: Dígito correcto en posición incorrecta</li>
+        <li><strong>X</strong>: Dígito incorrecto</li>
+        <li><strong>R</strong>: Indica que hay más repeticiones de ese dígito en el número</li>
+      </ul>
+    </div>
+  </div>
 
-    <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 
 </html>
