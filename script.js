@@ -1,2 +1,171 @@
-let entrada = document.getElementById("digito");
-let inputNumber = parseFloat(entrada.value);
+//Generar el número para adivinar.
+let numeroAzar = Math.random()*9999;
+numeroAzar = Math.floor(numeroAzar) + 1;
+
+// Convertir a string con 4 dígitos (rellenando con ceros a la izquierda si es necesario)
+let numeroAzarStr = numeroAzar.toString().padStart(4, '0');
+// Extraer cada dígito
+let digitoAzar1 = numeroAzarStr[0];
+let digitoAzar2 = numeroAzarStr[1];
+let digitoAzar3 = numeroAzarStr[2];
+let digitoAzar4 = numeroAzarStr[3];
+
+console.log(numeroAzar);
+console.log("digitos Azar : " , digitoAzar1, digitoAzar2, digitoAzar3, digitoAzar4 )
+
+//Contador para el número de intentos
+let numIntentos = 0;
+
+//Variables de entrada
+let digitoEntrada1 = 0;
+let digitoEntrada2 = 0;
+let digitoEntrada3 = 0;
+let digitoEntrada4 = 0; 
+let numeroEntrada = Number(digitoEntrada1 + digitoEntrada2 + digitoEntrada3 + digitoEntrada4);
+
+//Elementos del tablero con los que interactuar
+let pantalla = document.getElementById("pantalla");
+let feedback = document.getElementById("feedback");
+const boton = document.querySelector('button');
+
+function comprueba(){
+
+    digitoEntrada1 = document.getElementById(`digito1${numIntentos}`).value || 0; 
+    digitoEntrada2 = document.getElementById(`digito2${numIntentos}`).value || 0;
+    digitoEntrada3 = document.getElementById(`digito3${numIntentos}`).value || 0;
+    digitoEntrada4 = document.getElementById(`digito4${numIntentos}`).value || 0;
+    console.log(`digito1{numIntentos} : digito1${numIntentos}`)
+    console.log(`digito2{numIntentos} : digito2${numIntentos}`)
+    console.log(`digito3{numIntentos} : digito3${numIntentos}`)
+    console.log(`digito4{numIntentos} : digito4${numIntentos}`)
+    numeroEntrada = Number(digitoEntrada1 + digitoEntrada2 + digitoEntrada3 + digitoEntrada4);
+
+    console.log("digitos Entrada : " , digitoEntrada1, digitoEntrada2, digitoEntrada3, digitoEntrada4 )
+    console.log("numeroEntrada : ", numeroEntrada);
+
+
+    pantalla.textContent = `Jugando... Intento nº ${numIntentos+1}`;
+    if (digitoEntrada1 > 9 || digitoEntrada2 > 9 || digitoEntrada3 > 9 || digitoEntrada4 > 9) {
+        pantalla.textContent = "Todos los dígitos deben estar entre 0 y 9";
+        return;
+    }
+
+    // Validar que todos los dígitos sean mayores o iguales a 0
+    if (digitoEntrada1 < 0 || digitoEntrada2 < 0 || digitoEntrada3 < 0 || digitoEntrada4 < 0) {
+        pantalla.textContent = "Todos los dígitos deben estar entre 0 y 9";
+        return;
+    }
+
+
+
+    if (numeroEntrada === numeroAzar) {
+        pantalla.textContent = `¡Has acertado en ${numIntentos+1}! El número era: ${numeroAzarStr}`;
+        // Opcional: deshabilitar el botón de probar
+        document.querySelector('button').disabled = true;
+    } else {
+         // Calcular feedback
+        const feedbackTexto = calcularFeedback(
+            digitoEntrada1, digitoEntrada2, digitoEntrada3, digitoEntrada4
+        );
+        console.log(`feedbackTexto = ${feedbackTexto}`);
+        // Actualizar feedback del intento actual
+        const feedbackActual = document.getElementById(`feedback${numIntentos}`);
+        if (feedbackActual) {
+            feedbackActual.textContent = feedbackTexto;
+        }
+        numIntentos++;
+        console.log("numIntentos", numIntentos)
+        generaNuevoIntento();
+    }
+
+}
+
+function calcularFeedback(d1, d2, d3, d4) {
+    const digitosEntrada = [d1, d2, d3, d4];
+    const digitosAzar = [digitoAzar1, digitoAzar2, digitoAzar3, digitoAzar4];
+    let feedback = "";
+    console.log("calculando feedback");
+    
+    for (let i = 0; i < 4; i++) {
+        if (digitosEntrada[i] === digitosAzar[i]) {
+            feedback += "O"; // Posición y dígito correctos
+        } else if (digitosAzar.includes(digitosEntrada[i])) {
+            feedback += "A"; // Dígito correcto pero posición incorrecta
+        } else {
+            feedback += "X"; // Dígito incorrecto
+        }
+        if (i < 3) feedback += "-";
+    }
+    
+    return feedback;
+}
+
+function generaNuevoIntento(){
+    // Selecciona el contenedor donde se añadirá el nuevo div
+const tablero = document.querySelector('.tablero');
+
+// Crea un nuevo div con la clase "intento"
+const nuevoIntento = document.createElement('div');
+nuevoIntento.className = `intento${numIntentos}`;
+nuevoIntento.id = "essey"
+
+// Añade contenido al nuevo div (por ejemplo, inputs y un <p>)
+nuevoIntento.innerHTML = `
+    <input type="number" id="digito1${numIntentos}">
+    <input type="number" id="digito2${numIntentos}">
+    <input type="number" id="digito3${numIntentos}">
+    <input type="number" id="digito4${numIntentos}">
+    <p id="feedback${numIntentos}">X-X-X-X</p>
+    `;
+
+    if (numIntentos > 9){
+        console.log("HAY DEMASIADOS INTENTOS")
+        console.log(numIntentos)
+        console.log( "Info nuevoIntento div" )
+        console.log("nuevoIntento =", nuevoIntento)
+        console.log("nuevoIntento.className =", nuevoIntento.className)
+        console.log("nuevoIntento.id =", nuevoIntento.id)
+
+        let aux = numIntentos-10;
+        const antiguoIntentoCollection = document.getElementsByClassName(`intento${aux}`);
+        const antiguoIntento = antiguoIntentoCollection[0];
+        console.log( "Info antiguoIntento div" )
+        console.log("antiguoIntento =", antiguoIntento)
+        console.log("antiguoIntento.className =", antiguoIntento.className)
+        console.log("antiguoIntento.id =", antiguoIntento.id)
+        
+        antiguoIntento.remove();
+    }
+
+// Agrega el nuevo div al contenedor
+    // Insertar antes del botón
+    tablero.insertBefore(nuevoIntento, boton);
+    
+    // Enfocar el primer input del nuevo intento
+    document.getElementById(`digito1${numIntentos}`).focus();
+}
+
+
+// Reemplaza todo el código relacionado con el botón por esto:
+
+let touchHandled = false;
+
+boton.addEventListener('touchstart', function() {
+    touchHandled = true;
+}, { passive: true });
+
+boton.addEventListener('click', function(e) {
+    if (touchHandled) {
+        e.preventDefault();
+        touchHandled = false;
+    }
+    
+    // Ejecutar la lógica del botón
+    comprueba();
+    
+    // Quitar el foco inmediatamente
+    requestAnimationFrame(() => {
+        this.blur();
+    });
+});
+

@@ -24,21 +24,26 @@ html{
   }
   
   .tablero {
+    position: relative;
     background-image: linear-gradient( 135deg, #8a9db2 10%, #3a3f4b 100%);
     width: 280px;
-    margin: 120px auto;
+    height: 570px;
+    margin: 40px auto;
     padding: 2%;
     border-radius: 16px;
     box-shadow: 0 0 15px 5px #f5e8c7;
   }
 
-  .intento {
+  #essey {
     display: flex; /* Activa el modo flexbox */
     align-items: center; /* Alinea verticalmente los elementos */
     justify-content: space-between; /* Opcional: ajusta el espacio entre los elementos */
+    margin-bottom: 0px;
+    margin-top: 0px;
+    height: 40px;
   }
   
-  .intento p {
+  #essey p {
     margin-left: auto; /* Empuja el <p> hacia la derecha */
   }
   
@@ -61,72 +66,236 @@ html{
 }
 
   input[type="number"]{
-    width: 30px;
-    height: 30px;
-    margin-right: 5px;
-    margin-bottom: 5px;
+    width: 20px;
+    height: 25px;
+    margin-right: 8px;
+    margin-bottom: 0px;
     font-size: 18px;
     font-weight: 700;
     border-radius: 5px;
     text-align: center;
   }
-  
-  input[type="button"] {
-    width: 100px;
-    height: 40px;
-    margin-right: 5px;
-    margin-bottom: 5px;
-    font-size: 18px;
-    font-weight: 700;
-    color: #1e1f2a;
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-    border-radius: 999vw;
-    background-color: rgb(138, 157, 178, 0.75);
-    box-shadow: -0.15em -0.15em 0.15em -0.075em rgb(92, 101, 117, 0.25),
-        0.0375em 0.0375em 0.0675em 0 rgb(58, 63, 75, 0.1);
-  
+
+
+button {
+  all: unset;
+  position: absolute;
+  bottom: 15px;
+  left: 30px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  border-radius: 999vw;
+  background-color: rgba(0, 0, 0, 0.75);
+  box-shadow: -0.15em -0.15em 0.15em -0.075em rgba(5, 5, 5, 0.25),
+      0.0375em 0.0375em 0.0675em 0 rgba(5, 5, 5, 0.1);
+}
+
+button::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  width: calc(100% + 0.3em);
+  height: calc(100% + 0.3em);
+  top: -0.15em;
+  left: -0.15em;
+  border-radius: inherit;
+  background: linear-gradient(-135deg,
+          rgba(5, 5, 5, 0.5),
+          transparent 20%,
+          transparent 100%);
+  filter: blur(0.0125em);
+  opacity: 0.25;
+  mix-blend-mode: multiply;
+}
+
+button .button-outer {
+    position: relative;
+    z-index: 1;
+    border-radius: inherit;
+    transition: box-shadow 300ms ease;
+    will-change: box-shadow;
+    box-shadow: 0 0.05em 0.05em -0.01em rgba(5, 5, 5, 1),
+        0 0.01em 0.01em -0.01em rgba(5, 5, 5, 0.5),
+        0.15em 0.3em 0.1em -0.01em rgba(5, 5, 5, 0.25);
+}
+
+button:hover .button-outer {
+    box-shadow: 0 0 0 0 rgba(5, 5, 5, 1), 0 0 0 0 rgba(5, 5, 5, 0.5),
+        0 0 0 0 rgba(5, 5, 5, 0.25);
+}
+
+.button-inner {
+    --inset: 0.035em;
+    position: relative;
+    z-index: 1;
+    border-radius: inherit;
+    padding: 1em 1.5em;
+    background-image: linear-gradient(135deg,
+            rgba(230, 230, 230, 1),
+            rgba(180, 180, 180, 1));
+    transition: box-shadow 300ms ease, clip-path 250ms ease,
+        background-image 250ms ease, transform 250ms ease;
+    will-change: box-shadow, clip-path, background-image, transform;
+    overflow: clip;
+    clip-path: inset(0 0 0 0 round 999vw);
     box-shadow:
-      /* 1 */
-      0 0 0 0 inset rgba(5, 5, 5, 0.1),
-      /* 2 */
-      -0.05em -0.05em 0.05em 0 inset rgba(5, 5, 5, 0.25),
-      /* 3 */
-      0 0 0 0 inset rgba(5, 5, 5, 0.1),
-      /* 4 */
-      0 0 0.05em 0.2em inset rgba(255, 255, 255, 0.25),
-      /* 5 */
-      0.025em 0.05em 0.1em 0 inset rgba(255, 255, 255, 1),
-      /* 6 */
-      0.12em 0.12em 0.12em inset rgba(255, 255, 255, 0.25),
-      /* 7 */
-      -0.075em -0.25em 0.25em 0.1em inset rgba(5, 5, 5, 0.25);
+        /* 1 */
+        0 0 0 0 inset rgba(5, 5, 5, 0.1),
+        /* 2 */
+        -0.05em -0.05em 0.05em 0 inset rgba(5, 5, 5, 0.25),
+        /* 3 */
+        0 0 0 0 inset rgba(5, 5, 5, 0.1),
+        /* 4 */
+        0 0 0.05em 0.2em inset rgba(255, 255, 255, 0.25),
+        /* 5 */
+        0.025em 0.05em 0.1em 0 inset rgba(255, 255, 255, 1),
+        /* 6 */
+        0.12em 0.12em 0.12em inset rgba(255, 255, 255, 0.25),
+        /* 7 */
+        -0.075em -0.25em 0.25em 0.1em inset rgba(5, 5, 5, 0.25);
+}
+
+button:hover .button-inner {
+    clip-path: inset(clamp(1px, 0.0625em, 2px) clamp(1px, 0.0625em, 2px) clamp(1px, 0.0625em, 2px) clamp(1px, 0.0625em, 2px) round 999vw);
+    box-shadow:
+        /* 1 */
+        0.1em 0.15em 0.05em 0 inset rgba(5, 5, 5, 0.75),
+        /* 2 */
+        -0.025em -0.03em 0.05em 0.025em inset rgba(5, 5, 5, 0.5),
+        /* 3 */
+        0.25em 0.25em 0.2em 0 inset rgba(5, 5, 5, 0.5),
+        /* 4 */
+        0 0 0.05em 0.5em inset rgba(255, 255, 255, 0.15),
+        /* 5 */
+        0 0 0 0 inset rgba(255, 255, 255, 1),
+        /* 6 */
+        0.12em 0.12em 0.12em inset rgba(255, 255, 255, 0.25),
+        /* 7 */
+        -0.075em -0.12em 0.2em 0.1em inset rgba(5, 5, 5, 0.25);
+}
+
+button .button-inner span {
+    position: relative;
+    z-index: 4;
+    font-family: "Inter", sans-serif;
+    letter-spacing: -0.05em;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0);
+    background-image: linear-gradient(135deg,
+            rgba(25, 25, 25, 1),
+            rgba(75, 75, 75, 1));
+    -webkit-background-clip: text;
+    background-clip: text;
+    transition: transform 250ms ease;
+    display: block;
+    will-change: transform;
+    text-shadow: rgba(0, 0, 0, 0.1) 0 0 0.1em;
+    -webkit-user-select: none; 
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+button:hover .button-inner span {
+    transform: scale(0.975);
+}
+
+button:active .button-inner {
+    transform: scale(0.975);
+}
+
+/* Eliminar efectos hover cuando el botón está desactivado */
+button:disabled .button-outer,
+button:disabled:hover .button-outer {
+    box-shadow: 0 0.05em 0.05em -0.01em rgba(5, 5, 5, 1),
+        0 0.01em 0.01em -0.01em rgba(5, 5, 5, 0.5),
+        0.15em 0.3em 0.1em -0.01em rgba(5, 5, 5, 0.25);
+}
+
+button:disabled .button-inner,
+button:disabled:hover .button-inner {
+    clip-path: inset(0 0 0 0 round 999vw);
+    box-shadow:
+        0 0 0 0 inset rgba(5, 5, 5, 0.1),
+        -0.05em -0.05em 0.05em 0 inset rgba(5, 5, 5, 0.25),
+        0 0 0 0 inset rgba(5, 5, 5, 0.1),
+        0 0 0.05em 0.2em inset rgba(255, 255, 255, 0.25),
+        0.025em 0.05em 0.1em 0 inset rgba(255, 255, 255, 1),
+        0.12em 0.12em 0.12em inset rgba(255, 255, 255, 0.25),
+        -0.075em -0.25em 0.25em 0.1em inset rgba(5, 5, 5, 0.25);
+}
+
+button:disabled .button-inner span,
+button:disabled:hover .button-inner span {
+    transform: scale(1);
+}
+
+button:disabled:active .button-inner {
+    transform: scale(1);
+}
+
+/* Opcional: cambiar el cursor y opacidad para indicar que está desactivado */
+button:disabled {
+    cursor: default;
+    opacity: 0.6;
+}
+
+button:focus {
+  outline: none;
+}
+
+button:active {
+  outline: none;
+}
+
+/* Eliminar el estado de focus en dispositivos táctiles */
+@media (hover: none) {
+  button:focus {
+      outline: none;
   }
   
-  @media (hover: hover) {
-    input[type="button"]:hover {
+  button:focus .button-inner {
+      clip-path: inset(0 0 0 0 round 999vw);
       box-shadow:
-          /* 1 */
-          0.1em 0.15em 0.05em 0 inset rgba(5, 5, 5, 0.75),
-          /* 2 */
-          -0.025em -0.03em 0.05em 0.025em inset rgba(5, 5, 5, 0.5),
-          /* 3 */
-          0.25em 0.25em 0.2em 0 inset rgba(5, 5, 5, 0.5),
-          /* 4 */
-          0 0 0.05em 0.5em inset rgba(172, 159, 159, 0.15),
-          /* 5 */
-          0 0 0 0 inset rgb(67, 62, 51),
-          /* 6 */
-          0.12em 0.12em 0.12em inset rgba(140, 130, 130, 0.25),
-          /* 7 */
-          -0.075em -0.12em 0.2em 0.1em inset rgba(5, 5, 5, 0.25);
-      transform: scale(0.975);
-      
-      letter-spacing: -0.05em;
-      color: #1e1f2ae6;
-    }
+          0 0 0 0 inset rgba(5, 5, 5, 0.1),
+          -0.05em -0.05em 0.05em 0 inset rgba(5, 5, 5, 0.25),
+          0 0 0 0 inset rgba(5, 5, 5, 0.1),
+          0 0 0.05em 0.2em inset rgba(255, 255, 255, 0.25),
+          0.025em 0.05em 0.1em 0 inset rgba(255, 255, 255, 1),
+          0.12em 0.12em 0.12em inset rgba(255, 255, 255, 0.25),
+          -0.075em -0.25em 0.25em 0.1em inset rgba(5, 5, 5, 0.25);
+  }
+}
+
+/* Forzar el estado normal después del touch */
+button:focus:not(:hover) .button-inner {
+  clip-path: inset(0 0 0 0 round 999vw);
+  box-shadow:
+      0 0 0 0 inset rgba(5, 5, 5, 0.1),
+      -0.05em -0.05em 0.05em 0 inset rgba(5, 5, 5, 0.25),
+      0 0 0 0 inset rgba(5, 5, 5, 0.1),
+      0 0 0.05em 0.2em inset rgba(255, 255, 255, 0.25),
+      0.025em 0.05em 0.1em 0 inset rgba(255, 255, 255, 1),
+      0.12em 0.12em 0.12em inset rgba(255, 255, 255, 0.25),
+      -0.075em -0.25em 0.25em 0.1em inset rgba(5, 5, 5, 0.25);
+}
+
+button:focus:not(:hover) .button-inner span {
+  transform: scale(1);
+}
+
+/* Específico para dispositivos táctiles */
+@media (hover: none) and (pointer: coarse) {
+  button:active .button-inner {
+      transition: all 0.1s ease;
   }
   
-  input[type="button"]:last-child {
-    margin-left: 0;
+  button:focus .button-inner {
+      clip-path: inset(0 0 0 0 round 999vw) !important;
+      transform: scale(1) !important;
   }
+  
+  button:focus .button-inner span {
+      transform: scale(1) !important;
+  }
+}
