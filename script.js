@@ -1,7 +1,7 @@
 //Generar el número para adivinar.
-// let numeroAzar = Math.random()*9999;
-// numeroAzar = Math.floor(numeroAzar) + 1;
-let numeroAzar = 7775;
+let numeroAzar = Math.random()*9999;
+numeroAzar = Math.floor(numeroAzar) + 1;
+
 // Convertir a string con 4 dígitos (rellenando con ceros a la izquierda si es necesario)
 let numeroAzarStr = numeroAzar.toString().padStart(4, '0');
 // Extraer cada dígito
