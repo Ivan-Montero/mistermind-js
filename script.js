@@ -10,15 +10,6 @@ let digitoAzar2 = numeroAzarStr[1];
 let digitoAzar3 = numeroAzarStr[2];
 let digitoAzar4 = numeroAzarStr[3];
 
-const digitosAzar = [digitoAzar1, digitoAzar2, digitoAzar3, digitoAzar4];
-    // Contar ocurrencias de cada dígito en digitosAzar
-    const contadorAzar = {};
-    digitosAzar.forEach(digito => {
-        contadorAzar[digito] = (contadorAzar[digito] || 0) + 1;
-        console.log("contadorAzar[digito] = ", contadorAzar[digito])
-    });
-
-
 console.log(numeroAzar);
 console.log("digitos Azar : " , digitoAzar1, digitoAzar2, digitoAzar3, digitoAzar4 )
 
@@ -101,15 +92,13 @@ function calcularFeedback(d1, d2, d3, d4) {
     });
     
     for (let i = 0; i < 4; i++) {
-        const digitoActual = digitosEntrada[i];
-        const faltaDuplicado = contadorEntrada[digitoActual] < contadorAzar[digitoActual];
         
-        if (digitosEntrada[i] === digitosAzar[i]) {
+        if (digitosEntrada[i] === numeroAzarStr[i]) {
             // Posición y dígito correctos
-            feedback += faltaDuplicado ? "OR" : "O";
-        } else if (digitosAzar.includes(digitosEntrada[i])) {
+            feedback += "O";
+        } else if (numeroAzarStr.includes(digitosEntrada[i])) {
             // Dígito correcto pero posición incorrecta
-            feedback += faltaDuplicado ? "AR" : "A";
+            feedback += "A";
         } else {
             // Dígito incorrecto
             feedback += "X";
