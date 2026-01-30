@@ -286,14 +286,12 @@ window.addEventListener('DOMContentLoaded', function() {
             if (e.key === 'Backspace' && this.value === '' && index > 0) {
                 inputsInicial[index - 1].focus();
             }
+
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                comprueba();
+                boton.blur();
+            }
         });
     });
-});
-
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') {
-        e.preventDefault(); // Prevenir comportamiento por defecto
-        comprueba(); // Ejecutar la función del botón
-        boton.blur(); // Quitar el foco del botón
-    }
 });
