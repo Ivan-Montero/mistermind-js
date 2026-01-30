@@ -16,6 +16,7 @@ console.log("digitos Azar : " , digitoAzar1, digitoAzar2, digitoAzar3, digitoAza
 //Contador para el número de intentos
 let numIntentos = 0;
 let ejecutandoComprueba = false;
+let maxFitIntentos = 6;
 
 //Variables de entrada
 let digitoEntrada1 = 0;
@@ -28,6 +29,19 @@ let numeroEntrada = Number(digitoEntrada1 + digitoEntrada2 + digitoEntrada3 + di
 let pantalla = document.getElementById("pantalla");
 let feedback = document.getElementById("feedback");
 const boton = document.getElementById("probar");
+
+// ✅ CALCULAR maxFitIntentos DINÁMICAMENTE
+function calcularMaxFitIntentos() {
+    const tablero = document.querySelector('.tablero');
+    const alturaTablero = tablero.offsetHeight; // Altura real del tablero
+    maxFitIntentos = Math.floor((alturaTablero - 140) / 50);
+    console.log(`Altura del tablero: ${alturaTablero}px`);
+    console.log(`maxFitIntentos calculado: ${maxFitIntentos}`);
+}
+
+window.addEventListener('resize', function() {
+    calcularMaxFitIntentos();
+});
 
 function comprueba(){
     if (ejecutandoComprueba) {
@@ -149,15 +163,17 @@ function generaNuevoIntento(){
         <p id="feedback${numIntentos}"></p>
     `;
 
-    if (numIntentos > 9){
+    if (numIntentos > maxFitIntentos){
         console.log("HAY DEMASIADOS INTENTOS")
         console.log(numIntentos)
 
-        let aux = numIntentos-10;
+        let aux = numIntentos- maxFitIntentos - 1;
         const antiguoIntentoCollection = document.getElementsByClassName(`intento${aux}`);
         const antiguoIntento = antiguoIntentoCollection[0];
+        console.log('antiguo intento', antiguoIntento)
         
         if (antiguoIntento) {
+            console.log('eliminar intento')
             antiguoIntento.remove();
         }
     }
