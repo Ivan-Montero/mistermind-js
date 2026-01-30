@@ -32,17 +32,22 @@ html{
   margin: 40px auto;
   max-width: 1200px;
   flex-wrap: wrap; /* Permite que se apilen en pantallas pequeñas */
+  
 }
 
   .tablero {
     position: relative;
     background-image: linear-gradient(135deg, #8a9db2 10%, #3a3f4b 100%);
     width: 280px;
-    height: 570px;
+    height: calc(100vh - 250px); /* Altura dinámica basada en viewport height */
+    max-height: 600px; /* Altura máxima para pantallas muy grandes */
+    min-height: 450px; /* Altura mínima para pantallas pequeñas */
+  
     padding: 2%;
     border-radius: 16px;
     box-shadow: 0 0 15px 5px #f5e8c7;
     flex-shrink: 0; /* Evita que el tablero se encoja */
+    overflow-y: auto; /* Permite scroll si el contenido es muy grande */
   }
 
   #essey {

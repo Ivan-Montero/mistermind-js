@@ -91,7 +91,7 @@ function calcularFeedback(d1, d2, d3, d4) {
         contadorEntrada[digito] = (contadorEntrada[digito] || 0) + 1;
     });
     
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 5; i++) {
         
         if (digitosEntrada[i] === numeroAzarStr[i]) {
             // Posición y dígito correctos
@@ -104,7 +104,7 @@ function calcularFeedback(d1, d2, d3, d4) {
             feedback += "X";
         }
         
-        if (i < 3) feedback += "-";
+        if (i < 4) feedback += "-";
     }
     
     return feedback;
@@ -125,6 +125,7 @@ nuevoIntento.innerHTML = `
     <input type="number" id="digito2${numIntentos}">
     <input type="number" id="digito3${numIntentos}">
     <input type="number" id="digito4${numIntentos}">
+    <input type="number" id="digito5${numIntentos}">
     <p id="feedback${numIntentos}"></p>
     `;
 
