@@ -15,6 +15,7 @@ console.log("digitos Azar : " , digitoAzar1, digitoAzar2, digitoAzar3, digitoAza
 
 //Contador para el número de intentos
 let numIntentos = 0;
+let ejecutandoComprueba = false;
 
 //Variables de entrada
 let digitoEntrada1 = 0;
@@ -29,6 +30,10 @@ let feedback = document.getElementById("feedback");
 const boton = document.getElementById("probar");
 
 function comprueba(){
+    if (ejecutandoComprueba) {
+        return;
+    }
+    ejecutandoComprueba = true;
 
     digitoEntrada1 = document.getElementById(`digito1${numIntentos}`).value || 0; 
     digitoEntrada2 = document.getElementById(`digito2${numIntentos}`).value || 0;
@@ -47,12 +52,14 @@ function comprueba(){
     pantalla.textContent = `Jugando... Intento nº ${numIntentos+1}`;
     if (digitoEntrada1 > 9 || digitoEntrada2 > 9 || digitoEntrada3 > 9 || digitoEntrada4 > 9) {
         pantalla.textContent = "Todos los dígitos deben estar entre 0 y 9";
+        ejecutandoComprueba = false; // ✅ RESETEAR BANDERA
         return;
     }
 
     // Validar que todos los dígitos sean mayores o iguales a 0
     if (digitoEntrada1 < 0 || digitoEntrada2 < 0 || digitoEntrada3 < 0 || digitoEntrada4 < 0) {
         pantalla.textContent = "Todos los dígitos deben estar entre 0 y 9";
+        ejecutandoComprueba = false; // ✅ RESETEAR BANDERA
         return;
     }
 
@@ -73,6 +80,7 @@ function comprueba(){
             // boton.style.display = 'none';
 
             boton.disabled = true;
+            ejecutandoComprueba = false; // ✅ RESETEAR BANDERA
                     
     } else {
          // Calcular feedback
@@ -87,6 +95,7 @@ function comprueba(){
         }
         numIntentos++;
         console.log("numIntentos", numIntentos)
+        ejecutandoComprueba = false; // ✅ RESETEAR BANDERA
         generaNuevoIntento();
     }
 
