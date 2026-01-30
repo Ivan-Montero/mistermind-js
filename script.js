@@ -60,8 +60,20 @@ function comprueba(){
 
     if (numeroEntrada === numeroAzar) {
         pantalla.textContent = `¡Has acertado en ${numIntentos+1}! El número era: ${numeroAzarStr}`;
-        // Opcional: deshabilitar el botón de probar
-        document.querySelector('button').disabled = true;
+
+            // Crear elemento de imagen
+            const imagenVictoria = document.createElement('img');
+            imagenVictoria.src = './sources/anabel-wins.jpeg'; // Cambia por la ruta de tu imagen
+            imagenVictoria.alt = '¡Victoria!';
+            imagenVictoria.className = 'imagen-victoria';
+            
+            // Insertar la imagen en el tablero
+            // const tablero = document.querySelector('.tablero');
+            // tablero.insertBefore(imagenVictoria, pantalla.nextSibling);
+            // boton.style.display = 'none';
+
+            boton.disabled = true;
+                    
     } else {
          // Calcular feedback
         const feedbackTexto = calcularFeedback(
@@ -91,7 +103,7 @@ function calcularFeedback(d1, d2, d3, d4) {
         contadorEntrada[digito] = (contadorEntrada[digito] || 0) + 1;
     });
     
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 4; i++) {
         
         if (digitosEntrada[i] === numeroAzarStr[i]) {
             // Posición y dígito correctos
@@ -104,7 +116,7 @@ function calcularFeedback(d1, d2, d3, d4) {
             feedback += "X";
         }
         
-        if (i < 4) feedback += "-";
+        if (i < 3) feedback += "-";
     }
     
     return feedback;
@@ -112,50 +124,83 @@ function calcularFeedback(d1, d2, d3, d4) {
 
 function generaNuevoIntento(){
     // Selecciona el contenedor donde se añadirá el nuevo div
-const tablero = document.querySelector('.tablero');
+    const tablero = document.querySelector('.tablero');
 
-// Crea un nuevo div con la clase "intento"
-const nuevoIntento = document.createElement('div');
-nuevoIntento.className = `intento${numIntentos}`;
-nuevoIntento.id = "essey"
+    // Crea un nuevo div con la clase "intento"
+    const nuevoIntento = document.createElement('div');
+    nuevoIntento.className = `intento${numIntentos}`;
+    nuevoIntento.id = "essey"
 
-// Añade contenido al nuevo div (por ejemplo, inputs y un <p>)
-nuevoIntento.innerHTML = `
-    <input type="number" id="digito1${numIntentos}">
-    <input type="number" id="digito2${numIntentos}">
-    <input type="number" id="digito3${numIntentos}">
-    <input type="number" id="digito4${numIntentos}">
-    <input type="number" id="digito5${numIntentos}">
-    <p id="feedback${numIntentos}"></p>
+    // Añade contenido al nuevo div
+    nuevoIntento.innerHTML = `
+        <input type="number" id="digito1${numIntentos}" min="0" max="9">
+        <input type="number" id="digito2${numIntentos}" min="0" max="9">
+        <input type="number" id="digito3${numIntentos}" min="0" max="9">
+        <input type="number" id="digito4${numIntentos}" min="0" max="9">
+        <p id="feedback${numIntentos}"></p>
     `;
 
     if (numIntentos > 9){
         console.log("HAY DEMASIADOS INTENTOS")
         console.log(numIntentos)
-        console.log( "Info nuevoIntento div" )
-        console.log("nuevoIntento =", nuevoIntento)
-        console.log("nuevoIntento.className =", nuevoIntento.className)
-        console.log("nuevoIntento.id =", nuevoIntento.id)
 
         let aux = numIntentos-10;
         const antiguoIntentoCollection = document.getElementsByClassName(`intento${aux}`);
         const antiguoIntento = antiguoIntentoCollection[0];
-        console.log( "Info antiguoIntento div" )
-        console.log("antiguoIntento =", antiguoIntento)
-        console.log("antiguoIntento.className =", antiguoIntento.className)
-        console.log("antiguoIntento.id =", antiguoIntento.id)
         
-        antiguoIntento.remove();
+        if (antiguoIntento) {
+            antiguoIntento.remove();
+        }
     }
 
-// Agrega el nuevo div al contenedor
-    // Insertar antes del botón
+    // Agrega el nuevo div al contenedor
     tablero.insertBefore(nuevoIntento, boton);
     
-    // Enfocar el primer input del nuevo intento
-    document.getElementById(`digito1${numIntentos}`).focus();
-}
+    // IMPORTANTE: Añadir event listeners a los nuevos inputs
+    const inputs = [
+        document.getElementById(`digito1${numIntentos}`),
+        document.getElementById(`digito2${numIntentos}`),
+        document.getElementById(`digito3${numIntentos}`),
+        document.getElementById(`digito4${numIntentos}`)
+    ];
 
+    inputs.forEach((input, index) => {
+        input.addEventListener('input', function(e) {
+            // Limitar a un solo dígito
+            if (this.value.length > 1) {
+                this.value = this.value.slice(0, 1);
+            }
+            
+            // Validar que sea un número entre 0 y 9
+            if (this.value < 0 || this.value > 9 || isNaN(this.value)) {
+                this.value = '';
+                return;
+            }
+            
+            // Si hay un valor y no es el último input, saltar al siguiente
+            if (this.value.length === 1 && index < 3) {
+                inputs[index + 1].focus();
+            }
+        });
+
+        // Permitir borrar con backspace y volver al anterior
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'Backspace' && this.value === '' && index > 0) {
+                inputs[index - 1].focus();
+            }
+            
+            // Ejecutar comprueba() al pulsar Enter
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                comprueba();
+                boton.blur();
+            }
+        });
+    });
+    
+    // Enfocar el primer input del nuevo intento
+    inputs[0].focus();
+}
 
 // Reemplaza todo el código relacionado con el botón por esto:
 
@@ -206,3 +251,49 @@ btnCerrar.addEventListener('click', function() {
 
 });
 
+// Al final de tu script.js, después de todas las funciones
+
+// Configurar event listeners para el primer intento (intento0)
+window.addEventListener('DOMContentLoaded', function() {
+    const inputsInicial = [
+        document.getElementById(`digito1${numIntentos}`),
+        document.getElementById(`digito2${numIntentos}`),
+        document.getElementById(`digito3${numIntentos}`),
+        document.getElementById(`digito4${numIntentos}`)
+    ];
+
+    inputsInicial.forEach((input, index) => {
+        input.addEventListener('input', function(e) {
+            // Limitar a un solo dígito
+            if (this.value.length > 1) {
+                this.value = this.value.slice(0, 1);
+            }
+            
+            // Validar que sea un número entre 0 y 9
+            if (this.value < 0 || this.value > 9 || isNaN(this.value)) {
+                this.value = '';
+                return;
+            }
+            
+            // Si hay un valor y no es el último input, saltar al siguiente
+            if (this.value.length === 1 && index < 3) {
+                inputsInicial[index + 1].focus();
+            }
+        });
+
+        // Permitir borrar con backspace y volver al anterior
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'Backspace' && this.value === '' && index > 0) {
+                inputsInicial[index - 1].focus();
+            }
+        });
+    });
+});
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+        e.preventDefault(); // Prevenir comportamiento por defecto
+        comprueba(); // Ejecutar la función del botón
+        boton.blur(); // Quitar el foco del botón
+    }
+});

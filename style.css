@@ -35,6 +35,17 @@ html{
   
 }
 
+.imagen-victoria {
+  display: block;
+  width: 90%;
+  max-width: 250px;
+  height: auto; /* Mantiene la proporción de la imagen */
+  margin: 15px auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(245, 232, 199, 0.5);
+  object-fit: contain; /* Asegura que la imagen se ajuste sin distorsionarse */
+  animation: aparecer 0.5s ease-out, pulsar 1.5s infinite;
+}
   .tablero {
     position: relative;
     background-image: linear-gradient(135deg, #8a9db2 10%, #3a3f4b 100%);
